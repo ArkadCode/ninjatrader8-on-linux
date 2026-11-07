@@ -21,6 +21,7 @@ Run **NinjaTrader 8** on Ubuntu without installing Windows on your PC or dual bo
 - **Near-native speed.** It uses KVM, the Linux kernel's hardware virtualization, instead of slow emulation.
 - **Persistent.** Workspaces, indicators, and settings live in the `storage/` folder and survive restarts and container updates.
 - **Isolated.** NinjaTrader runs in its own VM, separate from your Linux system. If something breaks, delete the container and start over.
+- **One-click launcher.** `./nt8.sh launcher` adds a **NinjaTrader 8** icon to the Ubuntu app menu. Click it and the VM starts and opens in your browser.
 - **Starts with your machine.** With `restart: unless-stopped`, the container comes back up when you turn on your PC.
 - **Reproducible.** The whole setup is one `docker-compose.yml` and one `.env` file. Repeat the same install on another computer.
 
@@ -200,12 +201,19 @@ Go to **http://localhost:8006**.
 
 ## Daily use
 
+The `nt8.sh` helper wraps the common tasks. Give it permission to run once:
+
+```bash
+chmod +x nt8.sh
+```
+
 | Task | Command |
 | --- | --- |
-| Start | `docker compose up -d` |
-| Shut Windows down safely | `docker compose stop` |
-| Check status | `docker ps` |
-| View logs | `docker logs -f nt8` |
+| Start and open in the browser | `./nt8.sh open` (or the **NinjaTrader 8** app menu icon) |
+| Shut Windows down safely | `./nt8.sh stop` |
+| Check status | `./nt8.sh status` |
+| View logs | `./nt8.sh logs` |
+| Add the **NinjaTrader 8** icon to the app menu | `./nt8.sh launcher` |
 | Reinstall from scratch | `docker compose down && sudo rm -rf storage/ && docker compose up -d` |
 
 **RDP (optional):** with Remmina, which ships with Ubuntu, connect to `localhost:3389` using the user and password from your `.env`. It usually feels smoother than the browser.
@@ -216,6 +224,7 @@ Go to **http://localhost:8006**.
 .
 ├── docker-compose.yml   # Windows VM definition (resources, ports, volumes)
 ├── .env.example         # Settings template: copy to .env
+├── nt8.sh               # Daily helper: start, stop, open, status, logs
 ├── oem/
 │   ├── install.bat      # Runs on first boot: installs NT8 and sets up autostart
 │   └── setres.ps1       # Forces the resolution to 1920x1080
