@@ -1,4 +1,4 @@
-# NinjaTrader 8 on Linux with Docker
+# NinjaTrader 8 on Ubuntu with Docker
 
 Run **NinjaTrader 8** on Ubuntu without installing Windows on your PC or dual booting. One command starts a lightweight Windows VM (Tiny11) inside Docker, installs NinjaTrader unattended, and sets it to launch on its own every time Windows boots. You use it from your browser.
 
