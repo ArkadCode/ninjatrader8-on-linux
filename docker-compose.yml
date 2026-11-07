@@ -1,0 +1,26 @@
+services:
+  nt8:
+    image: dockurr/windows
+    container_name: nt8
+    environment:
+      VERSION: "${WIN_VERSION:-11l}"     # Ignored when a custom ISO is mounted below
+      RAM_SIZE: "${RAM_SIZE:-2G}"
+      CPU_CORES: "${CPU_CORES:-2}"
+      DISK_SIZE: "${DISK_SIZE:-32G}"
+      USERNAME: "${WIN_USER:-trader}"
+      PASSWORD: "${WIN_PASSWORD:?Set WIN_PASSWORD in the .env file}"
+    devices:
+      - /dev/kvm
+      - /dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "${BIND_IP:-127.0.0.1}:8006:8006"        # Windows desktop in the browser (noVNC)
+      - "${BIND_IP:-127.0.0.1}:3389:3389/tcp"    # RDP (optional)
+      - "${BIND_IP:-127.0.0.1}:3389:3389/udp"
+    volumes:
+      - ./storage:/storage                       # Windows virtual disk (persistent)
+      - ./oem:/oem                               # Scripts + installer run on first boot
+      - "${WIN_ISO:?Set WIN_ISO in the .env file}:/custom.iso"   # Tiny11 ISO (remove this line to let dockur download Windows)
+    restart: unless-stopped
+    stop_grace_period: 2m

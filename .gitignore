@@ -1,0 +1,16 @@
+# Local secrets
+.env
+
+# Windows virtual disk and VM state (tens of GB, includes the VM MAC address)
+storage/
+
+# Installers and images: proprietary software, each user downloads their own
+*.msi
+*.exe
+*.iso
+*.qcow2
+*.img
+
+# Misc
+*.log
+.vscode/
